@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #mytable {
+        width: 100%;
+        height: 600px;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+      .buttons {
+        display: flex;
+        justify-content: space-around;
+        vertical-align: middle;
+      }
+      .container {
+        overflow: scroll;
+      }
+      thead th {
+        padding: 0.4em;
+        background-color: rgb(0, 255, 170);
+      }
+      tbody td {
+        white-space: nowrap;
+        max-width: 150px;
+        width: 100px;
+        text-overflow: ellipsis;
+        overflow-x: hidden;
+        text-align: center;
+        vertical-align: middle;
+      }
+      tr:nth-child(even) {
+        background-color: aquamarine;
+      }
+      #Next,
+      #Last {
+        background-color: rgb(0, 134, 89);
+        border: none;
+        color: white;
+        border-radius: 5px;
+        padding: 0.3em;
+      }
+    </style>
+    <script src="data.js"></script>
+  </head>
+  <body>
+    <h1>Tabular Data</h1>
+    <div class="container">
+      <table id="mytable" border="1">
+        <thead id="header"></thead>
+        <tbody id="table_body"></tbody>
+      </table>
+    </div>
+
+    <div class="buttons">
+      <button id="Last">Last Page</button>
+      <button id="Next">Next Page</button>
+    </div>
+    <script>
+      var mytable = document.getElementById("mytable");
+      var thead = document.getElementById("header");
+      var tbody = document.getElementById("table_body");
+      var next = document.getElementById("Next");
+      var last = document.getElementById("Last");
+      let start = 0;
+      let end = 10;
+
+      var headerElements = Object.keys(data[0]);
+      //   console.log(headerElements);
+      //header
+      headerElements.forEach(function (element) {
+        console.log(element);
+        var ths = document.createElement("th");
+        ths.innerText = element.toUpperCase();
+        thead.appendChild(ths);
+      });
+
+      renderTable(start, end);
+
+      //buttons next prev logic
+      next.addEventListener("click", function () {
+        start += 10;
+        end += 10;
+        tbody.innerHTML = " ";
+        renderTable(start, end);
+      });
+
+      last.addEventListener("click", function () {
+        start -= 10;
+        end -= 10;
+        tbody.innerHTML = " ";
+        renderTable(start, end);
+      });
+
+      //rendertable
+
+      function renderTable(start, end) {
+        for (var i = start; i < end; i++) {
+          var book = data[i];
+          var bookRow = document.createElement("tr");
+
+          var titleCell = document.createElement("td");
+          titleCell.title = book.title;
+          titleCell.innerText = book.title;
+          bookRow.appendChild(titleCell);
+
+          var isbnCell = document.createElement("td");
+          isbnCell.innerText = book.isbn;
+          bookRow.appendChild(isbnCell);
+
+          var pageCountCell = document.createElement("td");
+          pageCountCell.innerText = book.pageCount;
+          bookRow.appendChild(pageCountCell);
+
+          var publishedDateCell = document.createElement("td");
+          var df = new Date(book.publishedDate.$date);
+          // var day=
+          publishedDateCell.innerText =
+            df.getDay() + "/" + df.getMonth() + "/" + df.getFullYear();
+          bookRow.appendChild(publishedDateCell);
+
+          var thumbnailUrlCell = document.createElement("td");
+          var a = document.createElement("a");
+          a.href = book.thumbnailUrl;
+          // a.target = "_blank";
+          a.innerText = "Dare to click";
+          //   img.width = 50;
+          thumbnailUrlCell.appendChild(a);
+          bookRow.appendChild(thumbnailUrlCell);
+
+          var shortDescriptionCell = document.createElement("td");
+          shortDescriptionCell.title = book.shortDescription;
+          shortDescriptionCell.innerText = book.shortDescription;
+          bookRow.appendChild(shortDescriptionCell);
+
+          var longDescriptionCell = document.createElement("td");
+          longDescriptionCell.title = book.longDescription;
+          longDescriptionCell.innerText = book.longDescription;
+          bookRow.appendChild(longDescriptionCell);
+
+          var statusCell = document.createElement("td");
+          statusCell.innerText = book.status;
+          bookRow.appendChild(statusCell);
+
+          var authorsCell = document.createElement("td");
+          authorsCell.title = book.authors;
+          authorsCell.innerText = book.authors;
+          bookRow.appendChild(authorsCell);
+
+          var categoriesCell = document.createElement("td");
+          categoriesCell.innerText = book.categories;
+          bookRow.appendChild(categoriesCell);
+
+          var priceCell = document.createElement("td");
+          priceCell.innerText = book.price;
+          bookRow.appendChild(priceCell);
+
+          var currencyCell = document.createElement("td");
+          currencyCell.innerText = book.currency;
+          bookRow.appendChild(currencyCell);
+
+          var discountCell = document.createElement("td");
+          discountCell.innerText = book.discount;
+          bookRow.appendChild(discountCell);
+
+          var discountUnitsCell = document.createElement("td");
+          discountUnitsCell.innerText = book.discountUnits;
+          bookRow.appendChild(discountUnitsCell);
+
+          tbody.appendChild(bookRow);
+        }
+      }
+    </script>
+  </body>
+</html>
